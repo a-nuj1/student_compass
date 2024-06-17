@@ -18,16 +18,16 @@ function Footer() {
             <Heading children = "@Anuj Gupta" color={'yellow.400'} fontFamily={'body'} size={'sm'}/>
            </VStack>
             <HStack spacing={['2', '10']} justifyContent={'center'} color={'white'} fontSize={'50'}>
-              <a href='https://youtube.com' target='_blank'>
+              <a href='https://youtube.com' target='blank'>
                 <TiSocialYoutubeCircular />
               </a>
-              <a href='https://instagram.com' target='_blank'>
+              <a href='https://instagram.com' target='blank'>
                 <SlSocialInstagram />
               </a>
-              <a href='https://linkedin.com/in/anuj-kumar-gupta-631651227/' target='_blank'>
+              <a href='https://linkedin.com/in/anuj-kumar-gupta-631651227/' target='blank'>
                 <FaLinkedin/>
               </a>
-              <a href='https://github.com/a-nuj1' target='_blank'>
+              <a href='https://github.com/a-nuj1' target='blank'>
                 <DiGithub />
               </a>
             </HStack>
