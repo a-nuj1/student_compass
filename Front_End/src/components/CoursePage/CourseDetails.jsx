@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Box, Container, Grid, Heading, Text, VStack } from '@chakra-ui/react'
 
 
+
 function CourseDetails() {
     const [lectureNumber, setLectureNumber] = useState(0);
 

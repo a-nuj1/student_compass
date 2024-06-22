@@ -24,7 +24,7 @@ const LinkBtn = ({url = "/", title = "Home", onClose})=>(
 
 function Header() {
   const {isOpen, onOpen, onClose} = useDisclosure();
-  const isAuthenticatd = false;
+  const isAuthenticatd = true;
   const user = {
     role: 'admin',
   }
@@ -38,9 +38,11 @@ function Header() {
   return (
     <>
       <ColorModeSwitcher />
-      <Button onClick={onOpen}
+      <Button
+       onClick={onOpen}
        colorScheme='yellow'
        width={'12'} height={'12'} rounded={'full'} 
+       zIndex={'overlay'}
        position={'fixed'} 
        top={'6'} left={'6'}>
         <RiMenu5Fill/>
