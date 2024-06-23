@@ -18,6 +18,12 @@ import PaymentSuccess from './components/Payments/PaymentSuccess'
 import PaymentFail from './components/Payments/PaymentFail'
 import CourseDetails from './components/CoursePage/CourseDetails'
 import Profile from './components/Profile/Profile'
+import ChangePass from './components/Profile/ChangePass'
+import UpdateProfile from './components/Profile/UpdateProfile'
+import Dashboard from './components/Admin/Dashboard/Dashboard'
+import CreateCourse from './components/Admin/CreateCourse/CreateCourse'
+import AdminCourses from './components/Admin/AdminCourses/AdminCourses'
+import Users from './components/Admin/Users/Users'
 
 function App() {
 
@@ -29,14 +35,17 @@ function App() {
     <Router>
       <Header/>
       <Routes>
+
+        {/* pages */}
         <Route path='/' element = {<Home/>}/>
         <Route path='/courses' element = {<Courses/>}/>
         <Route path='/course/:id' element = {<CourseDetails/>}/>
+        <Route path='/changepassword' element = {<ChangePass/>}/>
+        <Route path='/updateprofile' element = {<UpdateProfile/>}/>
         <Route path='/contact' element = {<Contact/>}/>
         <Route path='/request' element = {<Request/>}/>
         <Route path='/about' element = {<About/>}/>
         <Route path='/profile' element = {<Profile/>}/>
-
         <Route path='/login' element = {<Login/>}/>
         <Route path='/signup' element = {<Signup/>}/>
         <Route path='/forgetpassword' element = {<ForgetPass />}/>
@@ -45,6 +54,15 @@ function App() {
         <Route path='*' element = {<NotFound />}/>
         <Route path='/paymentsuccess' element = {<PaymentSuccess />}/>
         <Route path='/paymentfail' element = {<PaymentFail />}/>
+
+        {/* Admin Routes */}
+
+        <Route path='/admin/dashboard' element = {<Dashboard/>}/>
+        <Route path='/admin/createcourse' element = {<CreateCourse/>}/>
+        <Route path='/admin/courses' element = {<AdminCourses/>}/>
+        <Route path='/admin/users' element = {<Users/>}/>
+        
+
       </Routes>
       <Footer/>
     </Router>
