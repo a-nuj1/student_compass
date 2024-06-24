@@ -3,6 +3,7 @@ import React from 'react'
 import cursor from "../../../assets/images/cursor.png"
 import Sidebar from '../Sidebar'
 import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri'
+import { DoughnutChart, LineChart } from './Chart'
 
 const Bar = ({title, value, profit})=>{
     return (
@@ -81,7 +82,7 @@ function Dashboard() {
                  ml={['0','16']}
                 
                 />
-                {/* Gaph line */}
+                <LineChart />
             </Box>
 
             <Grid templateColumns={'1fr', '2fr 1fr'}>
@@ -97,7 +98,7 @@ function Dashboard() {
                     <Box>
                         <Bar profit={true} title = "views" value = {40} />
                         <Bar profit={true} title = "Users" value = {80} />
-                        <Bar profit={false} title = "Subscription" value = {54} />
+                        <Bar profit={true} title = "Subscription" value = {54} />
                     </Box>
 
                 </Box>
@@ -110,7 +111,7 @@ function Dashboard() {
                      size={'md'} mb={'4'} 
                      children = "Users"
                     />
-                    {/* Graph */}
+                    <DoughnutChart/>
                 </Box>
             </Grid>
 
