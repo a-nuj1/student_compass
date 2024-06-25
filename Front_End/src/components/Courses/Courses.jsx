@@ -74,7 +74,7 @@ function Courses() {
   const [category, setCategory] = useState('');
 
   const categories = [
-    "Web Development", "Artificial Intelligence", "Data Structures & Algorithm ", "Data Science", "Machine Learning",
+    "Web Development", "Artificial Intelligence", "Data Structures & Algorithm ", "Data Science", "Machine Learning","Game Development",
   ];
   return (
       <Container minH={'95vh'} maxW={'container.lg'} padding={'8'}>
