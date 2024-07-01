@@ -55,24 +55,24 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         required: [true, 'Please select category for this course'],
-        enum: {
-            values: [
-                'Web Development',
-                'Mobile Development',
-                'Data Structure',
-                'Algorithms',
-                'Machine Learning',
-                'Artificial Intelligence',
-                'python',
-                'Java',
-                'Game Development',
-                'Business',
-                'UI/UX',
-                'Data Science',
-                'Other',
-            ],
-            message: 'Please select correct category for course',
-        },
+        // enum: {
+        //     values: [
+        //         'Web Development',
+        //         'Mobile Development',
+        //         'Data Structure',
+        //         'Algorithms',
+        //         'Machine Learning',
+        //         'Artificial Intelligence',
+        //         'python',
+        //         'Java',
+        //         'Game Development',
+        //         'Business',
+        //         'UI/UX',
+        //         'Data Science',
+        //         'Other',
+        //     ],
+        //     message: 'Please select correct category for course',
+        // },
     },
 
     createdBy: { 
