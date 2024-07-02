@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import jwt from 'jsonwebtoken';
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -16,7 +17,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please enter your password'],
-        validate: validator.isStrongPassword,
+        // validate: validator.isStrongPassword,
         minLength: [8, 'Password must be at least 8 characters long'],
         select: false,
     },
@@ -61,5 +62,9 @@ const userSchema = new mongoose.Schema({
     ResetPasswrodExpire: String,
 
 });
+
+userSchema.methods.getJWTToken = function() {
+    return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: "15d" });
+};
 
 export const User = mongoose.model('User', userSchema);
