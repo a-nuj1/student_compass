@@ -55,3 +55,73 @@ export const logout = tryCatchAsync(async (req, res, next) => {
             message: "Logged Out Successfully",
         });
 });
+
+
+export const getProfile = tryCatchAsync(async (req, res, next) => {
+    const user = await User.findById(req.user._id);
+
+    res.status(200)
+    .json({
+        success: true,
+        user,
+    });
+});
+
+
+export const changePassword = tryCatchAsync(async(req, res, next)=>{
+    const {oldPass, newPass} = req.body;
+    if(!oldPass || !newPass){
+        return next(new errorResolve("Please enter all fields", 400));
+    }
+
+    const user = await User.findById(req.user._id).select("+password");
+
+    const isMatch = await user.comparePassword(oldPass);
+
+    if(!isMatch){
+        return next(new errorResolve("Incorrect Old Password", 400));
+    }
+
+    user.password = newPass;
+
+    await user.save();
+
+    res.status(200)
+    .json({
+        success: true,
+        message: "Pawssword Change Successfully",
+    })
+
+})
+
+
+export const updateProfile = tryCatchAsync(async(req, res, next)=>{
+    const {name, email} = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    if(name)user.name = name;
+    if(email)user.email = email;
+
+    await user.save();
+
+    res.status(200)
+    .json({
+        success: true,
+        message: "Profile Updated Successfully",
+    })
+
+})
+export const updatePP = tryCatchAsync(async(req, res, next)=>{
+
+    // TODO
+
+
+
+    res.status(200)
+    .json({
+        success: true,
+        message: "Profile Picute Updated Successfully",
+    })
+
+})
