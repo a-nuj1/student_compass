@@ -1,5 +1,4 @@
-import jwt from "jsonwebtoken"
-
+import jwt from "jsonwebtoken";
 import { tryCatchAsync } from "./tryCatchAsync.js"
 import ErrorResolve from "../utils/errorResolve.js";
 import { User } from "../models/User.js";
@@ -15,3 +14,11 @@ export const isAuthentic = tryCatchAsync(async(req, res, next) =>{
 
     next();
 })
+
+
+export const adminOnly = (req, res, next) =>{
+    if(req.user.role !== "admin"){
+        return next(new ErrorResolve("Not authorized to access this route", 403));
+    }
+    next();
+}
