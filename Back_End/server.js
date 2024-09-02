@@ -28,6 +28,9 @@ nodeCron.schedule("0 0 0 1 * *", async () => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send(`<h1> Site is Working...! Click<a href = ${process.env.FRONTEND_URL}>here</a> to Visit Frontend.</h1>`);
+});
 
 
 app.listen(PORT, () => {
