@@ -10,6 +10,7 @@ import { url } from "inspector";
 import {Course} from "../models/Course.js"
 import cloudinary from "cloudinary";
 import getDataUri from "../utils/dataUri.js";
+import { Stats } from "../models/Stats.js";
 
 // signup handler
 
@@ -56,18 +57,20 @@ export const login = tryCatchAsync(async (req, res, next) => {
     sendToken(res, user, `Welcome back ${user.name}`, 200);
 });
 
-
+// logout handler
 export const logout = tryCatchAsync(async (req, res, next) => {
         res.status(200).cookie("token", null, {
             expires: new Date(Date.now()),
-            // httpOnly: true,
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
         }).json({
             success: true,
             message: "Logged Out Successfully",
         });
 });
 
-
+// get Myprofile handler
 export const getProfile = tryCatchAsync(async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
@@ -78,7 +81,7 @@ export const getProfile = tryCatchAsync(async (req, res, next) => {
     });
 });
 
-
+// change password handler
 export const changePassword = tryCatchAsync(async(req, res, next)=>{
     const {oldPass, newPass} = req.body;
     if(!oldPass || !newPass){
@@ -105,7 +108,7 @@ export const changePassword = tryCatchAsync(async(req, res, next)=>{
 
 })
 
-
+// update profile handler
 export const updateProfile = tryCatchAsync(async(req, res, next)=>{
     const {name, email} = req.body;
 
@@ -123,6 +126,9 @@ export const updateProfile = tryCatchAsync(async(req, res, next)=>{
     })
 
 })
+
+
+// update profile picture handler
 export const updatePP = tryCatchAsync(async(req, res, next)=>{  
     const user = await User.findById(req.user._id);
 
@@ -179,6 +185,8 @@ export const forgetPass = tryCatchAsync(async(req, res, next)=>{
 })
 
 
+// reset password handler
+
 export const resetPass = tryCatchAsync(async(req, res, next)=>{
 
     const {token} = req.params;
@@ -212,6 +220,9 @@ export const resetPass = tryCatchAsync(async(req, res, next)=>{
 
 })
 
+
+
+// Add to playlist handler
 export const addToPlaylist = tryCatchAsync(async(req, res, next)=>{
 
     const user = await User.findById(req.user._id);
@@ -239,6 +250,8 @@ export const addToPlaylist = tryCatchAsync(async(req, res, next)=>{
     })
 })
 
+
+// remove from playlist handler
 export const removeFromPlaylist = tryCatchAsync(async(req, res, next)=>{
 
     const user = await User.findById(req.user._id);
@@ -266,7 +279,7 @@ export const removeFromPlaylist = tryCatchAsync(async(req, res, next)=>{
 
 // Admin controllers
 
-
+// get all users
 export const getAllUsers = tryCatchAsync(async(req, res, next)=>{
 
     const users = await User.find();
@@ -278,6 +291,7 @@ export const getAllUsers = tryCatchAsync(async(req, res, next)=>{
 });
 
 
+// update roles of user
 export const updateRoles = tryCatchAsync(async(req, res, next)=>{
 
     const user = await User.findById(req.params.id);
@@ -336,3 +350,18 @@ export const deleteMyProfile = tryCatchAsync(async(req, res, next)=>{
         message: "User Deleted Successfully",
     })
 });
+
+
+
+
+User.watch().on("change", async() => {
+    const stats = await Stats.find({}).sort({createdAt: "desc"}).limit(1);
+
+    const subscription = await User.find({"subscription.status": "active"});
+
+    stats[0].users = await User.countDocuments();
+    stats[0].subscription = subscription.length;
+    stats[0].createdAt = new Date(Date.now());
+
+    await stats[0].save();
+})
