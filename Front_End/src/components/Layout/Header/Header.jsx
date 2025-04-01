@@ -14,6 +14,8 @@ import {
 } from '@chakra-ui/react'
 
 import {RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill}from "react-icons/ri"
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../redux/actions/user';
 
 const LinkBtn = ({url = "/", title = "Home", onClose})=>(
   <Link onClick={onClose} to={url}>
@@ -22,16 +24,14 @@ const LinkBtn = ({url = "/", title = "Home", onClose})=>(
 )
 
 
-function Header() {
+function Header({isAuthenticated = false, user}) {
   const {isOpen, onOpen, onClose} = useDisclosure();
-  const isAuthenticatd = true;
-  const user = {
-    role: 'admin',
-  }
+
+  const dispatch = useDispatch();
 
   const logoutHandler=()=>{
-    console.log("Logout successfully");
     onClose();
+    dispatch(logout());
   }
 
 
@@ -64,7 +64,7 @@ function Header() {
         <LinkBtn onClose={onClose} url = '/about' title="About" />
 
         <HStack justifyContent={'space-evenly'} position={'absolute'} bottom={'2rem'} width={'80%'}>
-          {isAuthenticatd ? (
+          {isAuthenticated ? (
           <>
               <VStack>
                 <HStack>

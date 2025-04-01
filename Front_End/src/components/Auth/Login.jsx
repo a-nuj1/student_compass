@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
 import { Box, Button, Container, FormLabel, Heading, Input, VStack } from "@chakra-ui/react"
 import { Link } from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import { login } from '../../redux/actions/user';
+
+
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const dispatch = useDispatch();
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(login(email, password));
+    }
   return (
     <Container h={'90vh'}>
         <VStack  h={'full'} justifyContent={'center'} spacing={'10'}>
             <Heading fontSize={'30'} children={"Welcome to Student Compass"}/>
-            <form style={{width: '100%'}}>
+            <form onSubmit={handleSubmit} style={{width: '100%'}}>
                 <Box my={'4'}>
                     <FormLabel       
                     htmlFor='email' children = "Email Address"
@@ -35,7 +44,7 @@ function Login() {
                         placeholder='Enter Your Password'
                         type='password'
                         focusBorderColor='yellow.500'
-                    />s
+                    />
                 </Box>
 
                 <Box>

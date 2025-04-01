@@ -1,35 +1,41 @@
 import { Avatar, Button, Container, HStack, Heading, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, VStack, useDisclosure } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import {RiDeleteBin2Fill} from 'react-icons/ri'
 import {fileUploadCSS} from "../Auth/Signup"
+import { updatePPicture } from '../../redux/actions/profile'
+import { useDispatch , useSelector} from 'react-redux'
+import { getMyProfile } from '../../redux/actions/user'
+import { toast } from 'react-hot-toast'
 
-function Profile() {
-    const user = {
-        name: "Anuj",
-        email: "xyz@gamil.com",
-        createdAt: String(new Date().toISOString()),
-        role: 'user',
-        subscription:{
-            status: 'active',   
-        },
-        playlist:[
-            {
-               course: 'zxy',
-               poster: 'abc',
-            },
-        ],
-    };
+function Profile({user}) {
+
     const removeHandler = id =>{
         console.log(id);
     }
+    const dispatch = useDispatch();
+    const { loading, message, error } = useSelector(state => state.profile);
+    
+    const changeHandler = async(e, image)=>{
+        e.e.preventDefault();
+       const myForm = new FormData();
+       myForm.append('file', image);
+       await dispatch(updatePPicture(myForm));
+       dispatch(getMyProfile());
 
-    const {isOpen, onClose, onOpen} = useDisclosure();
-    const changeHandler = (e, image)=>{
-        e.preventDefalut();
-        console.log(image);
     }
 
+    useEffect(() => {
+        if (error) {
+          toast.error(error);
+          dispatch({ type: 'clearError' });
+        }
+        if (message) {
+          toast.success(message);
+          dispatch({ type: 'clearMessage' });
+        }
+      }, [dispatch, error, message]);
+    const {isOpen, onClose, onOpen} = useDisclosure();
 
   return (
     <Container minH = {'95vh'} maxW={'container.lg'} py={'8'}>
@@ -45,8 +51,9 @@ function Profile() {
          padding={'8'}
         >
             <VStack>
-                <Avatar boxSize={'48'} />
+                <Avatar boxSize={'48'} src={user.avatar.url} />
                 <Button  
+                    
                  onClick={onOpen}
                  colorScheme='yellow'
                  variant={'ghost'} 
@@ -74,7 +81,7 @@ function Profile() {
                 <HStack>
                     <Text children = "Subscription"  fontWeight={'bold'}/>
                     {
-                        user.subscription.status === 'active'?(
+                       user.subscription && user.subscription.status === 'active'?(
                            <Button color='yellow.500' variant={'unstyled'}>Cancel Subscription</Button> 
                         ):(
                             <Link to={'/subscribe'}>
@@ -102,7 +109,7 @@ function Profile() {
 
         <Heading children = "PlayList" size={'md'} my={'8'}/>
         {
-            user.playlist.length > 0 && (
+           user.playlist && user.playlist.length > 0 && (
                 <Stack
                  direction={['column', 'row']}
                  alignItems={'center'}
@@ -132,14 +139,15 @@ function Profile() {
                 </Stack>
             )
         }
-        <ChangePicBox changeHandler={changeHandler} isOpen={isOpen} onClose={onClose} />
+        <ChangePicBox changeHandler={changeHandler} isOpen={isOpen} onClose={onClose} 
+        loading={loading}/>
     </Container>
   )
 }
 
 export default Profile
 
-function ChangePicBox({isOpen, onClose, changeHandler}){
+function ChangePicBox({isOpen, onClose, changeHandler, loading}){
     const [image, setImage] = useState('');
     const [imagePrev, setImagePrev] = useState('');
     const changeImage = (e)=>{
@@ -175,7 +183,7 @@ function ChangePicBox({isOpen, onClose, changeHandler}){
                             onChange={changeImage}
                             />
 
-                            <Button w={'full'} colorScheme='yellow' type='submit'>Change</Button>
+                            <Button isLoading = {loading} w={'full'} colorScheme='yellow' type='submit'>Change</Button>
                         </VStack>
                     </form>
                 </Container>

@@ -45,7 +45,7 @@ const Home =()=> {
       </Stack>
     </div>
 
-    <Box padding={'6'} bg="blackAlpha.800">
+    {/* <Box padding={'6'} bg="blackAlpha.800">
       <Heading
         textAlign={'center'}
         fontFamily="body"
@@ -73,7 +73,7 @@ const Home =()=> {
         disableRemotePlayback
         
       ></video>
-    </div>
+    </div> */}
   </section>
   );
 };
